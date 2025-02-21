@@ -29,28 +29,28 @@ public class ventana extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtCodigo = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtSalida = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        MnuAbrir = new javax.swing.JMenuItem();
+        mnuLimpiar = new javax.swing.JMenuItem();
+        mnuSalir = new javax.swing.JMenuItem();
+        mnuLexico = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtCodigo.setColumns(20);
+        txtCodigo.setRows(5);
+        jScrollPane1.setViewportView(txtCodigo);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtSalida.setColumns(20);
+        txtSalida.setRows(5);
+        jScrollPane2.setViewportView(txtSalida);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -74,28 +74,33 @@ public class ventana extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo ");
 
-        jMenuItem2.setText("abrir");
-        jMenu1.add(jMenuItem2);
+        MnuAbrir.setText("abrir");
+        jMenu1.add(MnuAbrir);
 
-        jMenuItem3.setText("limpiar");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mnuLimpiar.setText("limpiar");
+        mnuLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mnuLimpiarActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(mnuLimpiar);
 
-        jMenuItem4.setText("salir");
-        jMenu1.add(jMenuItem4);
+        mnuSalir.setText("salir");
+        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSalirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuSalir);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Compilar");
+        mnuLexico.setText("Compilar");
 
         jMenuItem5.setText("lexico");
-        jMenu2.add(jMenuItem5);
+        mnuLexico.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(mnuLexico);
 
         setJMenuBar(jMenuBar1);
 
@@ -117,9 +122,13 @@ public class ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mnuLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLimpiarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mnuLimpiarActionPerformed
+
+    private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,18 +136,18 @@ public class ventana extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MnuAbrir;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JMenu mnuLexico;
+    private javax.swing.JMenuItem mnuLimpiar;
+    private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JTextArea txtCodigo;
+    private javax.swing.JTextArea txtSalida;
     // End of variables declaration//GEN-END:variables
 }
