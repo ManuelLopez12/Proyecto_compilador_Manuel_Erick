@@ -37,15 +37,18 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="mnuLexico">
+        <Menu class="javax.swing.JMenu" name="compilar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Compilar"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuLexico">
               <Properties>
                 <Property name="text" type="java.lang.String" value="lexico"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuLexicoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

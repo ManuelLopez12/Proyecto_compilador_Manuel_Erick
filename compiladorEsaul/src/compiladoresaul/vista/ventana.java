@@ -8,12 +8,12 @@ package compiladoresaul.vista;
  *
  * @author JM LOPEZ HURTADO
  */
-public class ventana extends javax.swing.JFrame {
+public class Ventana extends javax.swing.JFrame {
 
     /**
      * Creates new form ventana
      */
-    public ventana() {
+    public Ventana() {
         initComponents();
     }
 
@@ -37,8 +37,8 @@ public class ventana extends javax.swing.JFrame {
         MnuAbrir = new javax.swing.JMenuItem();
         mnuLimpiar = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
-        mnuLexico = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        compilar = new javax.swing.JMenu();
+        mnuLexico = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -95,12 +95,17 @@ public class ventana extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        mnuLexico.setText("Compilar");
+        compilar.setText("Compilar");
 
-        jMenuItem5.setText("lexico");
-        mnuLexico.add(jMenuItem5);
+        mnuLexico.setText("lexico");
+        mnuLexico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLexicoActionPerformed(evt);
+            }
+        });
+        compilar.add(mnuLexico);
 
-        jMenuBar1.add(mnuLexico);
+        jMenuBar1.add(compilar);
 
         setJMenuBar(jMenuBar1);
 
@@ -130,6 +135,10 @@ public class ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mnuSalirActionPerformed
 
+    private void mnuLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLexicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuLexicoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -137,14 +146,14 @@ public class ventana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MnuAbrir;
+    private javax.swing.JMenu compilar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JMenu mnuLexico;
+    private javax.swing.JMenuItem mnuLexico;
     private javax.swing.JMenuItem mnuLimpiar;
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JTextArea txtCodigo;

@@ -4,7 +4,7 @@
  */
 package compiladoresaul;
 
-import compiladoresaul.vista.ventana;
+import compiladoresaul.vista.Ventana;
 
 /**
  *
@@ -17,7 +17,7 @@ public class CompiladorEsaul {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ventana v = new ventana();
+        Ventana v = new Ventana();
         v.setVisible(true);
     }
     
