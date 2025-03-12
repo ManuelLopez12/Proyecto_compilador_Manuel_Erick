@@ -4,17 +4,20 @@
  */
 package compiladoresaul.vista;
 
+import controlador.Control;
+
 /**
  *
  * @author JM LOPEZ HURTADO
  */
 public class Ventana extends javax.swing.JFrame {
-
+   private Control c; 
     /**
      * Creates new form ventana
      */
     public Ventana() {
         initComponents();
+         c = new Control();
     }
 
     /**
@@ -73,8 +76,19 @@ public class Ventana extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Archivo ");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         mnuAbrir.setText("abrir");
+        
+        mnuAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAbrirActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnuAbrir);
 
         mnuLimpiar.setText("limpiar");
@@ -138,6 +152,15 @@ public class Ventana extends javax.swing.JFrame {
     private void mnuLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLexicoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mnuLexicoActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void mnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAbrirActionPerformed
+        // TODO add your handling code here:
+        c.abrirArchivo(txtCodigo);
+    }//GEN-LAST:event_mnuAbrirActionPerformed
 
     /**
      * @param args the command line arguments

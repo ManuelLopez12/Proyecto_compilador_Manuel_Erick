@@ -11,7 +11,7 @@ import controlador.Control;
  * @author JM LOPEZ HURTADO
  */
 public class Ventana extends javax.swing.JFrame {
-   private Control c;
+   private Control c; 
     /**
      * Creates new form ventana
      */
@@ -176,7 +176,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JMenuItem mnuAbrir;
     private javax.swing.JMenuItem mnuLexico;
     private javax.swing.JMenuItem mnuLimpiar;
     private javax.swing.JMenuItem mnuSalir;
