@@ -13,11 +13,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Archivo "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu1ActionPerformed"/>
+          </Events>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="MnuAbrir">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuAbrir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="abrir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAbrirActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuLimpiar">
               <Properties>

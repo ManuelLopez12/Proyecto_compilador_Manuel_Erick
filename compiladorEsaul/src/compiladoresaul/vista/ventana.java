@@ -4,17 +4,20 @@
  */
 package compiladoresaul.vista;
 
+import controlador.Control;
+
 /**
  *
  * @author JM LOPEZ HURTADO
  */
 public class Ventana extends javax.swing.JFrame {
-
+   private Control c;
     /**
      * Creates new form ventana
      */
     public Ventana() {
         initComponents();
+         c = new Control();
     }
 
     /**
@@ -34,7 +37,7 @@ public class Ventana extends javax.swing.JFrame {
         txtSalida = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        MnuAbrir = new javax.swing.JMenuItem();
+        mnuAbrir = new javax.swing.JMenuItem();
         mnuLimpiar = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
         compilar = new javax.swing.JMenu();
@@ -73,9 +76,19 @@ public class Ventana extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Archivo ");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
-        MnuAbrir.setText("abrir");
-        jMenu1.add(MnuAbrir);
+        mnuAbrir.setText("abrir");
+        mnuAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAbrirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuAbrir);
 
         mnuLimpiar.setText("limpiar");
         mnuLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -139,13 +152,21 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mnuLexicoActionPerformed
 
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void mnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAbrirActionPerformed
+        // TODO add your handling code here:
+        c.abrirArchivo(txtCodigo);
+    }//GEN-LAST:event_mnuAbrirActionPerformed
+
     /**
      * @param args the command line arguments
      */
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem MnuAbrir;
     private javax.swing.JMenu compilar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -153,6 +174,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenuItem mnuAbrir;
     private javax.swing.JMenuItem mnuLexico;
     private javax.swing.JMenuItem mnuLimpiar;
     private javax.swing.JMenuItem mnuSalir;
