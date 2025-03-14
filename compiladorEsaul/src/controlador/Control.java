@@ -47,11 +47,8 @@ public class Control {
                         "Error \n"+ e, "Error", JOptionPane.ERROR_MESSAGE);
             }
             
+        } 
         }
-         
-
-       
-        
     }
     
-}
+
