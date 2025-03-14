@@ -79,21 +79,26 @@ public class Ventana extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo ");
 
-        MnuAbrir.setText("abrir");
+        MnuAbrir.setText("Abrir");
+        MnuAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnuAbrirActionPerformed(evt);
+            }
+        });
         jMenu1.add(MnuAbrir);
 
-        mnuLimpiar.setText("limpiar");
+        mnuLimpiar.setText("Limpiar");
         mnuLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuLimpiarActionPerformed(evt);
+                
             }
         });
         jMenu1.add(mnuLimpiar);
 
-        mnuSalir.setText("salir");
+        mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuSalirActionPerformed(evt);
+                
             }
         });
         jMenu1.add(mnuSalir);
@@ -105,7 +110,7 @@ public class Ventana extends javax.swing.JFrame {
         mnuLexico.setText("lexico");
         mnuLexico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuLexicoActionPerformed(evt);
+          
             }
         });
         compilar.add(mnuLexico);
@@ -132,26 +137,10 @@ public class Ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnuLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLimpiarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnuLimpiarActionPerformed
-
-    private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnuSalirActionPerformed
-
-    private void mnuLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLexicoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnuLexicoActionPerformed
-
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        
-    }//GEN-LAST:event_jMenu1ActionPerformed
-
-    private void mnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAbrirActionPerformed
+    private void MnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuAbrirActionPerformed
         // TODO add your handling code here:
         c.abrirArchivo(txtCodigo);
-    }//GEN-LAST:event_mnuAbrirActionPerformed
+    }//GEN-LAST:event_MnuAbrirActionPerformed
 
     /**
      * @param args the command line arguments

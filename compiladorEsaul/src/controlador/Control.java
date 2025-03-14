@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
  * @author JM LOPEZ HURTADO
  */
 public class Control {
+    //aegunda revision 14/03/2025
     private Ventana v;
     private ArrayList<String> line;
     
@@ -26,7 +27,6 @@ public class Control {
         line = new ArrayList<>();
         String parrafo = "";
         JFileChooser muestra = new JFileChooser();
-        Ventana v = new Ventana();
         int resultado = muestra.showOpenDialog(v);
         if(resultado == JFileChooser.APPROVE_OPTION){
             File archivo = muestra.getSelectedFile();

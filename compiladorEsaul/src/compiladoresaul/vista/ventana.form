@@ -16,12 +16,15 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MnuAbrir">
               <Properties>
-                <Property name="text" type="java.lang.String" value="abrir"/>
+                <Property name="text" type="java.lang.String" value="Abrir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnuAbrirActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuLimpiar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="limpiar"/>
+                <Property name="text" type="java.lang.String" value="Limpiar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuLimpiarActionPerformed"/>
@@ -29,7 +32,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuSalir">
               <Properties>
-                <Property name="text" type="java.lang.String" value="salir"/>
+                <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSalirActionPerformed"/>
