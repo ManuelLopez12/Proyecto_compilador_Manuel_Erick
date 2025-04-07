@@ -11,13 +11,11 @@ import controlador.Control;
  * @author JM LOPEZ HURTADO
  */
 public class Ventana extends javax.swing.JFrame {
-   private Control c; 
-    /**
-     * Creates new form ventana
-     */
+private Control c;
+    
     public Ventana() {
         initComponents();
-         c = new Control();
+        c=new Control();
     }
 
     /**
@@ -29,93 +27,57 @@ public class Ventana extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtCodigo = new javax.swing.JTextArea();
+        txtMensaje = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtSalida = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        MnuAbrir = new javax.swing.JMenuItem();
+        mnuArchivo = new javax.swing.JMenu();
+        mnuAbrir = new javax.swing.JMenuItem();
         mnuLimpiar = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
-        compilar = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
         mnuLexico = new javax.swing.JMenuItem();
-
-        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtCodigo.setColumns(20);
-        txtCodigo.setRows(5);
-        jScrollPane1.setViewportView(txtCodigo);
+        txtMensaje.setColumns(20);
+        txtMensaje.setRows(5);
+        jScrollPane1.setViewportView(txtMensaje);
 
         txtSalida.setColumns(20);
         txtSalida.setRows(5);
         jScrollPane2.setViewportView(txtSalida);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addGap(46, 46, 46))
-        );
+        mnuArchivo.setText("Archivo");
 
-        jMenu1.setText("Archivo ");
-
-        MnuAbrir.setText("Abrir");
-        MnuAbrir.addActionListener(new java.awt.event.ActionListener() {
+        mnuAbrir.setText("Abrir");
+        mnuAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnuAbrirActionPerformed(evt);
+                mnuAbrirActionPerformed(evt);
             }
         });
-        jMenu1.add(MnuAbrir);
+        mnuArchivo.add(mnuAbrir);
 
         mnuLimpiar.setText("Limpiar");
-        mnuLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-            }
-        });
-        jMenu1.add(mnuLimpiar);
+        mnuArchivo.add(mnuLimpiar);
 
         mnuSalir.setText("Salir");
-        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-            }
-        });
-        jMenu1.add(mnuSalir);
+        mnuArchivo.add(mnuSalir);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(mnuArchivo);
 
-        compilar.setText("Compilar");
+        jMenu2.setText("Compilar");
 
-        mnuLexico.setText("lexico");
+        mnuLexico.setText("Lexico");
         mnuLexico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-          
+                mnuLexicoActionPerformed(evt);
             }
         });
-        compilar.add(mnuLexico);
+        jMenu2.add(mnuLexico);
 
-        jMenuBar1.add(compilar);
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -123,24 +85,35 @@ public class Ventana extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnuAbrirActionPerformed
+    private void mnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAbrirActionPerformed
         // TODO add your handling code here:
-        c.abrirArchivo(txtCodigo);
-    }//GEN-LAST:event_MnuAbrirActionPerformed
+        c.abrirArchivo(txtMensaje);
+    }//GEN-LAST:event_mnuAbrirActionPerformed
+
+    private void mnuLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLexicoActionPerformed
+        // TODO add your handling code here:
+        c.obtenerToken(txtMensaje, txtSalida);
+    }//GEN-LAST:event_mnuLexicoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,18 +121,16 @@ public class Ventana extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem MnuAbrir;
-    private javax.swing.JMenu compilar;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenuItem mnuAbrir;
+    private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuLexico;
     private javax.swing.JMenuItem mnuLimpiar;
     private javax.swing.JMenuItem mnuSalir;
-    private javax.swing.JTextArea txtCodigo;
+    private javax.swing.JTextArea txtMensaje;
     private javax.swing.JTextArea txtSalida;
     // End of variables declaration//GEN-END:variables
 }
