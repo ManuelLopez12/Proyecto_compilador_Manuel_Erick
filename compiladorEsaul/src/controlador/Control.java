@@ -56,7 +56,7 @@ public class Control {
     public void obtenerToken(JTextArea texto, JTextArea txtSalida) {
         ArrayList<String> id = new ArrayList<>();
         ArrayList<String> aux = new ArrayList<>();// para los elementos repetidos 
-        String ExR = "0|[1-9]+|[a-zA-Z][a-zA-Z0-9_]+|\\.|\\+|\\*|\\/|\\-|\\,|\\;|\\<>|\\=|\\_";
+        String ExR = "0|[1-9]+|[a-zA-Z][a-zA-Z0-9_]+|\\.|\\+|\\*|\\/|\\-|\\,|\\;|\\<>|\\=|\\_|\\->|\\<-|\\<=|\\>=|\\:";
         Pattern compilar = Pattern.compile(ExR);
         Matcher buscar = compilar.matcher(texto.getText());
         while (buscar.find()) {
@@ -101,6 +101,8 @@ public class Control {
                 return 40;
             case "while":
                 return 44;
+            case "for":
+                return 46;
         }
         //token para los numeros 
         if (elemento.matches("[0-9]+")) {
@@ -118,7 +120,7 @@ public class Control {
                 return 6;
             case ";":
                 return 12;
-            case "[":
+            case "{":
                 return 30;
             case "}":
                 return 32;

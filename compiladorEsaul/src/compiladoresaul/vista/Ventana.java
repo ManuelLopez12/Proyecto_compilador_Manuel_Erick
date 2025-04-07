@@ -5,6 +5,7 @@
 package compiladoresaul.vista;
 
 import controlador.Control;
+import java.time.Clock;
 
 /**
  *
@@ -45,6 +46,7 @@ private Control c;
         txtMensaje.setRows(5);
         jScrollPane1.setViewportView(txtMensaje);
 
+        txtSalida.setEditable(false);
         txtSalida.setColumns(20);
         txtSalida.setRows(5);
         jScrollPane2.setViewportView(txtSalida);
@@ -60,9 +62,19 @@ private Control c;
         mnuArchivo.add(mnuAbrir);
 
         mnuLimpiar.setText("Limpiar");
+        mnuLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLimpiarActionPerformed(evt);
+            }
+        });
         mnuArchivo.add(mnuLimpiar);
 
         mnuSalir.setText("Salir");
+        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSalirActionPerformed(evt);
+            }
+        });
         mnuArchivo.add(mnuSalir);
 
         jMenuBar1.add(mnuArchivo);
@@ -114,6 +126,17 @@ private Control c;
         // TODO add your handling code here:
         c.obtenerToken(txtMensaje, txtSalida);
     }//GEN-LAST:event_mnuLexicoActionPerformed
+
+    private void mnuLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLimpiarActionPerformed
+        // TODO add your handling code here:
+        txtMensaje.setText("");
+        txtSalida.setText("");
+    }//GEN-LAST:event_mnuLimpiarActionPerformed
+
+    private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_mnuSalirActionPerformed
 
     /**
      * @param args the command line arguments
