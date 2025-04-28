@@ -1,0 +1,46 @@
+Elemento 	Token 
+num	        1
+
+identificadores	2
+
+//para elementos separadores
+.	4
+,	6
+;	12
+{	30
+}	32
+(	56
+)	58
+:	42
+
+//para elementos relacionales
+==	18
+<>	20
+<	22
+>	24
+<=	26
+>=	28
+
+//para los elementos aritméticos
++	52
+-	54
+*	60
+/	62
+
+//para los elementos de asignación 
+=	10
+->	48
+<-	50
+
+//para las palabras reservadas 
+const	8
+var	14
+proced	16
+print	34
+input	36
+exec	38
+if	40
+while	44
+for	46
+
+
