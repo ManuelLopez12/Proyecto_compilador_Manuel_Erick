@@ -1,9 +1,9 @@
  BNF
 <Programa>:= <Bloque> .
 
-<Bloque>:= <c2>|<c4>|<c6>|<proposicion>
+<Bloque>:= <c2><c4><c6><proposicion>
 
-<c1>:= id = num ,| id = num , <c1>
+<c1>:= id = num | id = num , <c1>
 
 <c2>:= const <c1> ;
 
@@ -21,13 +21,13 @@
 
 <expresion>:= <e3>
 
-<e2>:= +|-
+<e2>:= + | -
 
 <e3>:= <termino|<termino><e2><e3>
 
 <termino>:= <e5>
 
-<e4>:= *|/
+<e4>:= * | /
 
 <e5>:= <factor>|<factor><e4><e5>
 
@@ -38,7 +38,7 @@
 <e7>:= id 
 <e8>:= num
 
-<proposicion>:= <p1>|<p2>|<p3>|<p4>|<p5>|<p6>|<p7>|<p8>|<p9>|<p10>
+<proposicion>:= <p2>|<p3>|<p4>|<p5>|<p6>|<p7>|<p8>|<p10>
 
 <p1>:= <proposicion>|<proposixion> ; <p1>
 
@@ -56,9 +56,9 @@
 
 <p8>:= while <condicion> : <proposicion>
 
-<p9>:= <expresión> ->| <expresion> <- 
+<p9>:= -> | <- 
 
-<p10>:= for id = <p9> <expresion> : <Proposicion>
+<p10>:= for id = <expresion> <p9> <expresion> : <Proposicion>
 
 
 
