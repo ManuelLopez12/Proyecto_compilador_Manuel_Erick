@@ -10,11 +10,13 @@ bloque -> <proposicion>
 c1 -> id = num ,
 c1 -> id = num , <c1>
 c2 -> const <c1> ;
+C2 -> NULL
 c3 -> id ,
 c3 -> id , <c3>
-c4 -> var <c3> 
-c5 -> proced id ;
-c6 -> <c5> <bloque> ;
+c4 -> var <c3>
+C4 -> NULL
+c6 -> proced id ;  <bloque> ;
+C6 -> NULL
 
 condición -> <expresion>
 condición -> <e1>
