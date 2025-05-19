@@ -5,17 +5,15 @@
 
 <c1>:= id = num | id = num , <c1>
 
-<c2>:= const <c1> ;
+<c2>:= const <c1> ;| NULL
 
-<c3>:= id ,| id , <c5>
+<c3>:= id | id , <c3>
 
-<c4>:= var <c3> ;
+<c4>:= var <c3> ;|NULL
 
-<c5>:= proced id ;
+<c6>:= proced id ;<Bloque> ;|NULL
 
-<c6>:= <c5> <Bloque> ;
-
-<condicion>:= <expresion> <e1> 
+<condicion>:= <expresion> <e1> <expresion>
 
 <e1>:= ==|<>|<|>|<=|>=
 
