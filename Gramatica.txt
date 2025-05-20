@@ -11,15 +11,14 @@ c1 -> id = num
 c1 -> id = num , <c1>
 c2 -> const <c1> ;
 C2 -> NULL
-c3 -> id ,
+c3 -> id 
 c3 -> id , <c3>
 c4 -> var <c3>
 C4 -> NULL
 c6 -> proced id ;  <bloque> ;
 C6 -> NULL
 
-condición -> <expresion>
-condición -> <e1>
+condición -> <expresion> <e1> <expresion>
 e1 -> == 
 e1 -> <>
 e1 -> <
@@ -45,7 +44,6 @@ e6 -> ( <expresion> )
 e7 -> id
 e8 -> num
 
-proposición -> <p1>
 proposición -> <p2>
 proposición -> <p3>
 proposición -> <p4>
@@ -53,7 +51,6 @@ proposición -> <p5>
 proposición -> <p6>
 proposición -> <p7>
 proposición -> <p8>
-proposición -> <p9>
 proposición -> <p10>
 
 p1 -> <Proposicion>
