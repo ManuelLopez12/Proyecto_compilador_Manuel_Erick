@@ -7,7 +7,7 @@ bloque -> <c4>
 bloque -> <c6>
 bloque -> <proposicion>
 
-c1 -> id = num ,
+c1 -> id = num 
 c1 -> id = num , <c1>
 c2 -> const <c1> ;
 C2 -> NULL
