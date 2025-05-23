@@ -2,10 +2,7 @@ Gramatica
 
 Program -> <bloque> .
 
-bloque -> <c2>
-bloque -> <c4>
-bloque -> <c6>
-bloque -> <proposicion>
+bloque -> <c2><c4><c6><proposicion>
 
 c1 -> id = num 
 c1 -> id = num , <c1>
@@ -38,11 +35,9 @@ e5 -> <factor><e4><e5>
 termino -> <e5>
 
 factor -> <e6>
-factor -> <e7>
-factor -> <e8>
+factor -> id
+factor -> num
 e6 -> ( <expresion> )
-e7 -> id
-e8 -> num
 
 proposición -> <p2>
 proposición -> <p3>
