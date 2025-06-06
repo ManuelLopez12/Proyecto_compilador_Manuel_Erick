@@ -114,4 +114,4 @@ p9_x ->  ->
 
 p9_x ->  <-
 
-p10 -> for id = <p9> <expresion> : <expresion>
+p10 -> for id = <p9> <expresion> : <proposicion>
