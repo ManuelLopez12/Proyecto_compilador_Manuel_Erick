@@ -1,0 +1,36 @@
+No Terminal	FIRST()
+Programa	{ const, var, proced, {, id, print, input, exec, if, while, for }
+Bloque	{ const, var, proced, {, id, print, input, exec, if, while, for }
+c1	{ id }
+c1_x	{ ,, ε }
+c2	{ const, ε }
+c3	{ id }
+c3_x	{ ,, ε }
+c4	{ var, ε }
+c6	{ proced, ε }
+condición	{ (, id, num }
+e1	{ ==, <>, <, >, <=, => }
+expresión	{ (, id, num }
+e2	{ +, - }
+e3	{ (, id, num }
+e3_x	{ +, -, ε }
+e4	{ *, / }
+e5	{ (, id, num }
+e5_x	{ *, /, ε }
+termino	{ (, id, num }
+factor	{ (, id, num }
+e6	{ ( }
+proposición	{ {, id, print, input, exec, if, while, for }
+p1	{ {, id, print, input, exec, if, while, for }
+p1_x	{ ;, ε }
+p2	{ { }
+p3	{ id }
+p4	{ print }
+p4_x	{ num, id }
+p5	{ input }
+p6	{ exec }
+p7	{ if }
+p8	{ while }
+p9	{ (, id, num }
+p9_x	{ ->, <- }
+p10	{ for }
