@@ -1,0 +1,117 @@
+Gramatica lineal por izquierda
+
+Programa -> <bloque> .
+
+Bloque -> <c2><c4><c6><proposicion>
+
+c1 -> id = num <c1_x>
+
+c1_x -> , <c1>
+
+c1_x -> null
+
+c2 -> const <c1> ;
+
+c2 -> null
+
+c3 -> id <c3_x>
+
+c3_x -> , <c3>
+
+c3_x -> null
+
+c4 -> var <c3>
+
+c4 -> null
+
+c6 -> proced id ; <bloque> ;
+
+c6 - null
+
+
+condición -> <expresion> <e1> <expresion>
+
+e1 -> ==
+e1 -> <>
+e1 -> <
+e1 -> >
+e1 -> <=
+e1 -> =>
+
+expresión -> <e3>
+e2 -> +
+e2 -> -
+
+e3 -> <termino> <e3_x>
+
+e3_x -> <e2><e3>
+
+e3_x -> null
+
+e4 -> *
+
+e4 -> /
+
+e5 -> <factor><e5_x>
+
+e5_x -> <e4><e5>
+
+e5_x -> null
+
+termino -> <e5>
+
+factor -> <e6>
+
+factor -> id
+
+factor -> num
+
+e6 -> ( <expresion> )
+
+proposición -> <p2>
+
+proposición -> <p3>
+
+proposición -> <p4>
+
+proposición -> <p5>
+
+proposición -> <p6>
+
+proposición -> <p7>
+
+proposición -> <p8>
+
+proposición -> <p10> 
+
+p1 -> <proposicion><p1_x>
+
+p1_x -> ; <p1>
+
+p1_x ->  null
+
+p2 -> { <p1> }
+
+p3 -> id = <expresion> 
+
+p4 -> print<p4_x>
+
+p4_x -> num
+
+p4_x -> id
+
+p5 -> input id
+
+p6 -> exec id
+0
+p7 -> if <condicion> : <proposicion>  
+
+p8 -> while <condicion> : <proposicion> 
+
+p9 -> <expresion><p9_x>
+
+p9_x ->  ->
+
+p9_x ->  <-
+
+p10 -> for id = <p9> <expresion> : <expresion>
