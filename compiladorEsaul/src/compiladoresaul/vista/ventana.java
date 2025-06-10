@@ -5,6 +5,7 @@
 package compiladoresaul.vista;
 
 import controlador.Control;
+
 import java.time.Clock;
 
 /**
@@ -13,10 +14,12 @@ import java.time.Clock;
  */
 public class Ventana extends javax.swing.JFrame {
 private Control c;
+
     
     public Ventana() {
         initComponents();
         c=new Control();
+        
     }
 
     /**
@@ -39,6 +42,7 @@ private Control c;
         mnuSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         mnuLexico = new javax.swing.JMenuItem();
+        mnuSintactico = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,13 +85,21 @@ private Control c;
 
         jMenu2.setText("Compilar");
 
-        mnuLexico.setText("Lexico");
+        mnuLexico.setText("Léxico");
         mnuLexico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuLexicoActionPerformed(evt);
             }
         });
         jMenu2.add(mnuLexico);
+
+        mnuSintactico.setText("Sintáctico");
+        mnuSintactico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSintacticoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnuSintactico);
 
         jMenuBar1.add(jMenu2);
 
@@ -138,6 +150,11 @@ private Control c;
         System.exit(0);
     }//GEN-LAST:event_mnuSalirActionPerformed
 
+    private void mnuSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSintacticoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_mnuSintacticoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -153,6 +170,7 @@ private Control c;
     private javax.swing.JMenuItem mnuLexico;
     private javax.swing.JMenuItem mnuLimpiar;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JMenuItem mnuSintactico;
     private javax.swing.JTextArea txtMensaje;
     private javax.swing.JTextArea txtSalida;
     // End of variables declaration//GEN-END:variables

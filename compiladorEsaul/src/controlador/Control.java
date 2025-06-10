@@ -25,7 +25,9 @@ public class Control {
     //aegunda revision 14/03/2025
     private Ventana v;
     private ArrayList<String> line;
-
+    
+  
+    
     public void abrirArchivo(JTextArea txt) {
         line = new ArrayList<>();
         String parrafo = "";
@@ -55,26 +57,27 @@ public class Control {
 
     public void obtenerToken(JTextArea texto, JTextArea txtSalida) {
         ArrayList<String> id = new ArrayList<>();
-        ArrayList<String> aux = new ArrayList<>();// para los elementos repetidos 
-        String ExR = "0|[1-9]+|[a-zA-Z][a-zA-Z0-9_]+|\\.|\\+|\\*|\\/|\\-|\\,|\\;|\\<>|\\=|\\_|\\->|\\<-|\\<=|\\>=|\\:";
+       // ArrayList<String> aux = new ArrayList<>();// para los elementos repetidos 
+        String ExR = "0|[0-9]+|[a-zA-Z][a-zA-Z0-9_]+|\\.|\\+|\\*|\\/|\\-|\\,|\\;|\\<>|\\=|\\_|\\->|\\<-|\\<=|\\>=|\\:";
         Pattern compilar = Pattern.compile(ExR);
         Matcher buscar = compilar.matcher(texto.getText());
         while (buscar.find()) {
             String elemento = buscar.group();
             
-          boolean repeticiones=false;
+          /*boolean repeticiones=false;
             for (int i = 0; i < aux.size(); i++) {
                 if(aux.get(i).equals(elemento)){
                     repeticiones=true;
                     break;
                 }
-            }
-            if(!repeticiones){
+            }*/
+            
             int token = obtenido(elemento);
             id.add(String.format("%s\t%d\n", elemento, token));
-            aux.add(elemento);
-         }
+         
+         
         }
+        
         txtSalida.setText("");
 
         for (int i = 0; i < id.size(); i++) {
@@ -172,5 +175,5 @@ public class Control {
         return -1;
 
     }
-
+ 
 }
