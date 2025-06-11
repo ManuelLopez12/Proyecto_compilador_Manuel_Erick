@@ -6,6 +6,7 @@ package controlador;
 
 import compiladoresaul.vista.Ventana;
 import java.util.ArrayList;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -20,34 +21,44 @@ public class sintatico {
     private String[] token;
     private int[] tiposTokens;
     private int posiciondeToken = 0;
-    public sintatico(String[] token, int[] tiposTokens){
-        this.tokens=tokens;
+    private JTextArea txtSalida;
+ 
+    
+    public sintatico(String[] token, int[] tiposTokens, Ventana ventana, JTextArea txtSalida){
+        this.token=token;
         this.tiposTokens=tiposTokens;
         this.posiciondeToken=0;
+        this.v=ventana;
+        this.txtSalida=txtSalida;
         if(token.length>0){
             this.tokens=token[0];
             tipodeToken=tiposTokens[0];
         }
    }
+    private void mostrarMensaje(String mensaje) {
+    txtSalida.append(mensaje + "\n");
+}
     public void avanzar(){
-        posiciondeToken++;
-        if(posiciondeToken<token.length){
+        if(posiciondeToken+1<token.length){
+            posiciondeToken++;
             tokens = token[posiciondeToken];
             tipodeToken = tiposTokens[posiciondeToken];
 
         }else{
+            
             tokens="$";//la terminacion de la cadena 
-            tipodeToken = -1;
+            posiciondeToken=token.length;
         }
     }
     //programa -> bloque .
      public void programa(){
+          bloque();
          if(tipodeToken!=4){
-             System.out.println("Error se esperaba un '.'");
+             mostrarMensaje("Error se esperaba un '.'");
              return;
          }
-         bloque();
          avanzar();
+         
      }
      public void bloque(){    
         ArrayList<Integer> firstBloque = new ArrayList<>();
@@ -64,7 +75,7 @@ public class sintatico {
         firstBloque.add(46); // for
          
          if(!firstBloque.contains(tipodeToken)){
-             System.out.println("Error en el bloque");
+             mostrarMensaje("Error en el bloque");
              return;
          }
         c2();
@@ -75,17 +86,17 @@ public class sintatico {
       // c1 -> id = num c1_x
      public void c1(){
          if (tipodeToken != 2){
-             System.out.println("error se esperaba 'identificador'");
+             mostrarMensaje("error se esperaba 'identificador'");
              return;
          }
          avanzar();
          if(tipodeToken != 10){
-             System.out.println("Error se esperaba el '=' ");
+             mostrarMensaje("Error se esperaba el '=' ");
              return;
          }
          avanzar();
          if(tipodeToken != 1){
-             System.out.println("Error se esperaba 'nuemero'");
+             mostrarMensaje("Error se esperaba 'nuemero'");
              return;
          }
          avanzar();
@@ -93,133 +104,118 @@ public class sintatico {
      } 
       // c1_x -> , c1 | null
      public void c1_x(){
-        if(tipodeToken != 6){
-            System.out.println("Error se esperaba ',' ");
-            return;
+        if(tipodeToken == 6){
+             avanzar();
+              c1();
         }
-        avanzar();
-        c1();
+        
      }
        // c2 -> const c1 ; | null
-     public void c2(){
-         if(tipodeToken != 8){
-             System.out.println("Error se esperaba 'const' ");
-         }
-         avanzar();
-         c1();
-        if (tipodeToken != 12){
-            System.out.println("Error se esperaba ';'");
-            return;
-        }
-        avanzar();
-     }
+   public void c2(){
+    if(tipodeToken != 8){
+        return; // producción vacía
+    }
+    avanzar();
+    c1();
+    if (tipodeToken != 12){
+        mostrarMensaje("Error se esperaba ';'");
+        return;
+    }
+    avanzar();
+}
      // c3 -> id c3_x
      public void c3(){
          if(tipodeToken != 2){
-             System.out.println("Error se esperaba 'identificador'");
+             mostrarMensaje("Error se esperaba 'identificador'");
              return;
          }
          avanzar();
          c3_x();
      }
      // c3_x -> , c3 | null
-       public void c3_x(){
-        if(tipodeToken != 6){
-            System.out.println("Error se esperaba ',' ");
-            return;
-        }
+      public void c3_x(){
+    if(tipodeToken == 6){ // coma
         avanzar();
         c3();
-     }
+    }
+    // Si no hay coma, es producción vacía
+}
        // c4 -> var c3 | null
-       public void c4(){
-          if(tipodeToken != 14){
-              System.out.println("Error se esperaba 'var'");
-              return;
-          }
-          avanzar();
-          c3();
-       }
+      public void c4(){
+    if(tipodeToken != 14){
+        return; // producción vacía
+    }
+    avanzar();
+    c3();
+}
          // c6 -> proced id ; bloque ; | null
        public void c6(){
-        if (tipodeToken != 16){
-             System.out.println("error se esperaba 'proced'");
-             return;
-         }
-         avanzar();
-         if(tipodeToken != 2){
-             System.out.println("Error se esperaba el 'identificador' ");
-             return;
-         }
-         avanzar();
-         if(tipodeToken != 12){
-             System.out.println("Error se esperaba ';'");
-             return;
-         }
-         avanzar();
-         bloque();
-         if(tipodeToken != 12){
-             System.out.println("Error se esperaba ';'");
-             return;
-         }
-         avanzar();
-       }
+    if (tipodeToken != 16){
+        return; // producción vacía
+    }
+    avanzar();
+    if(tipodeToken != 2){
+        mostrarMensaje("Error se esperaba el 'identificador' ");
+        return;
+    }
+    avanzar();
+    if(tipodeToken != 12){
+        mostrarMensaje("Error se esperaba ';'");
+        return;
+    }
+    avanzar();
+    bloque();
+    if(tipodeToken != 12){
+        mostrarMensaje("Error se esperaba ';'");
+        return;
+    }
+    avanzar();
+}
        // condición -> expresion e1 expresion
-       public void condicion(){
-           if (tipodeToken != 56 || tipodeToken != 2 || tipodeToken != 1 ){
-               System.out.println("Error en condicion");
-               return;
-           }
-           expresion();
-           e1();
-           expresion();
-       }
+public void condicion(){
+    ArrayList<Integer> firstCondicion = new ArrayList<>();
+    firstCondicion.add(56); // (
+    firstCondicion.add(2);  // id
+    firstCondicion.add(1);  // num
+    
+    if(!firstCondicion.contains(tipodeToken)){
+        mostrarMensaje("Error en condicion");
+        return;
+    }
+    expresion();
+    e1();
+    expresion();
+}
+
         // e1 -> == | <> | < | > | <= | >=
-       public void e1(){
-           if(tipodeToken != 18){
-               System.out.println("Errror se esperaba '=='");
-               return;
-           }
-           avanzar();
-           if(tipodeToken != 20){
-               System.out.println("Errror se esperaba '=='");
-               return;
-       }
-           avanzar();
-           if(tipodeToken != 22){
-               System.out.println("Errror se esperaba '<'");
-               return;
-       }
-           avanzar();
-            if(tipodeToken != 24){
-               System.out.println("Errror se esperaba '>'");
-               return;
-       }  
+      public void e1(){
+    switch(tipodeToken){
+        case 18: // ==
+        case 20: // <>
+        case 22: // <
+        case 24: // >
+        case 26: // <=
+        case 28: // >=
             avanzar();
-               if(tipodeToken != 26){
-               System.out.println("Errror se esperaba '<='");
-               return;
-       }
-               avanzar();
-                  if(tipodeToken != 28){
-               System.out.println("Errror se esperaba '>='");
-               return;
-       }
-                  avanzar();
-  }
+            break;
+        default:
+            mostrarMensaje("Error: se esperaba operador relacional");
+    }
+}
           // expresión -> e3
-       public void expresion(){
-           ArrayList<Integer> firtsexpresion = new ArrayList();
-           firtsexpresion.add(56);
-           firtsexpresion.add(2);
-           firtsexpresion.add(1);
-           
-           if(!firtsexpresion.contains(tipodeToken)){
-               System.out.println("Error en expresion");
-               return;
-           }
-           e3();
-       }
+      public void e3(){
+    ArrayList<Integer> firtse3 = new ArrayList();
+    firtse3.add(56);
+    firtse3.add(2);
+    firtse3.add(1);
+    
+    if(!firtse3.contains(tipodeToken)){
+        mostrarMensaje("Error en e3");
+        return;
+    }
+    termino(); // CAMBIO: era e3_x()
+    e3_x();
+}
        /// e2 -> + | -
        public void e2(){
            switch(tipodeToken){
@@ -228,30 +224,17 @@ public class sintatico {
                    avanzar();
                 break;
                 default:
-                    System.out.println("Error se esperaba el '+' o '-'");
+                    mostrarMensaje("Error se esperaba el '+' o '-'");
            }
        }
-        // e3 -> termino e3_x
-      
-        public void e3(){
-           ArrayList<Integer> firtse3 = new ArrayList();
-           firtse3.add(56);
-           firtse3.add(2);
-           firtse3.add(1);
-           
-           if(!firtse3.contains(tipodeToken)){
-               System.out.println("Error en e3");
-               return;
-           }
-           e3_x();
-       }
+        
          
     // e3_x -> e2 e3 | null
         public void e3_x(){
            ArrayList<Integer> firtse3_x = new ArrayList();
            firtse3_x.add(52);
            firtse3_x.add(54);
-            if(!firtse3_x.contains(tipodeToken)){
+            if(firtse3_x.contains(tipodeToken)){
                 e2();
                 e3();
             }
@@ -265,7 +248,7 @@ public class sintatico {
                    avanzar();
                 break;
                 default:
-                    System.out.println("Error se esperaba el '*' o '/'");
+                    mostrarMensaje("Error se esperaba el '*' o '/'");
            }
        }
         // e5 -> factor e5_x
@@ -276,7 +259,7 @@ public class sintatico {
         firtse5.add(1);
         
         if(!firtse5.contains(tipodeToken)){
-            System.out.println("Error en el metodo e5");
+            mostrarMensaje("Error en el metodo e5");
             return;
         }
         factor();
@@ -289,7 +272,7 @@ public class sintatico {
              firtse5_x.add(60);
              firtse5_x.add(62);
              
-             if(!firtse5_x.contains(tipodeToken)){
+             if(firtse5_x.contains(tipodeToken)){
                  e4();
                  e5();
              }
@@ -302,7 +285,7 @@ public class sintatico {
         termino.add(1);
         
         if(!termino.contains(tipodeToken)){
-            System.out.println("Error en termino");
+            mostrarMensaje("Error en termino");
             return;
         }
         e5();
@@ -312,24 +295,26 @@ public class sintatico {
         public void factor(){
            switch(tipodeToken){
                case 56:
+                   e6();
+                   break;
                case 2:
                case 1:
                    avanzar();
                 break;
                 default:
-                    System.out.println("Error se esperaba el '(' o 'identificador' o 'numero'");
+                    mostrarMensaje("Error se esperaba el '(' o 'identificador' o 'numero'");
            }
        }
          // e6 -> ( expresion )
         public void e6(){
             if(tipodeToken!=56){
-                System.out.println("Error se esperaba '('");
+                mostrarMensaje("Error se esperaba '('");
                 return;
             }
             avanzar();
             expresion();
             if(tipodeToken!=58){
-                System.out.println("Error se esperaba ')'");
+                mostrarMensaje("Error se esperaba ')'");
                 return;
             }
             avanzar();
@@ -362,7 +347,7 @@ public class sintatico {
                     p10();
                     break;
                 default:
-                    System.out.println("Error en proposicion");
+                    mostrarMensaje("Error en proposicion");
             }
         }
            // p1 -> proposicion p1_x
@@ -377,30 +362,43 @@ public class sintatico {
             firtsp1.add(44);
             firtsp1.add(46);
             if(!firtsp1.contains(tipodeToken)){
-                System.out.println("Error en p1");
+                mostrarMensaje("Error en p1");
             }
             proposicion();
             p1_x();
         }
-         // p1_x -> ; p1 | null
-        public void p1_x(){
-            if(tipodeToken!=12){
-                System.out.println("Error se esperaba ';'");
-                return;
-            }
-            avanzar();
-            p1();
+         // expresión -> e3
+    public void expresion() {
+        ArrayList<Integer> firstExpresion = new ArrayList<>();
+        firstExpresion.add(56); // (
+        firstExpresion.add(2);  // id
+        firstExpresion.add(1);  // num
+        
+        if (!firstExpresion.contains(tipodeToken)) {
+            mostrarMensaje("Error en expresión");
+            return;
         }
+        
+        e3();
+    }
+         // p1_x -> ; p1 | null
+       public void p1_x(){
+    if(tipodeToken == 12){ // ;
+        avanzar();
+        p1();
+    }
+    // Si no hay ;, es producción vacía
+}
          // p2 -> { p1 }
         public void p2(){
             if(tipodeToken!=30){
-                System.out.println("Error se esperaba '{'");
+                mostrarMensaje("Error se esperaba '{'");
                 return;
             }
            avanzar();
            p1();
           if(tipodeToken!=32){
-              System.out.println("Error se esperaba ']'");
+              mostrarMensaje("Error se esperaba '}'");
                 return;
           }
           avanzar();
@@ -408,12 +406,12 @@ public class sintatico {
          // p3 -> id = expresion
          public void p3(){
             if(tipodeToken!=2){
-                System.out.println("Error se esperaba 'identificador'");
+                mostrarMensaje("Error se esperaba 'identificador'");
                 return;
             }
            avanzar();
           if(tipodeToken!=10){
-              System.out.println("Error se esperaba '='");
+              mostrarMensaje("Error se esperaba '='");
                 return;
           }
           avanzar();
@@ -422,7 +420,7 @@ public class sintatico {
             // p4 -> print p4_x
          public void p4(){
              if (tipodeToken!=34){
-                 System.out.println("Error se esperaba 'print'");
+                 mostrarMensaje("Error se esperaba 'print'");
                  return;
              }
              avanzar();
@@ -436,18 +434,18 @@ public class sintatico {
                      avanzar();
                      break;
                  default:
-                     System.out.println("Error se esperaba 'numero' o 'identifiacador'  ");
+                     mostrarMensaje("Error se esperaba 'numero' o 'identifiacador'  ");
              }
          }
            // p5 -> input id
           public void p5(){
             if(tipodeToken!=36){
-                System.out.println("Error se esperaba 'input'");
+                mostrarMensaje("Error se esperaba 'input'");
                 return;
             }
            avanzar();
           if(tipodeToken!=2){
-              System.out.println("Error se esperaba 'identificador'");
+              mostrarMensaje("Error se esperaba 'identificador'");
                 return;
           }
           avanzar();
@@ -455,12 +453,12 @@ public class sintatico {
           // p6 -> exec id
           public void p6(){
             if(tipodeToken!=38){
-                System.out.println("Error se esperaba 'exec'");
+                mostrarMensaje("Error se esperaba 'exec'");
                 return;
             }
            avanzar();
           if(tipodeToken!=2){
-              System.out.println("Error se esperaba 'identificador'");
+              mostrarMensaje("Error se esperaba 'identificador'");
                 return;
           }
           avanzar();
@@ -468,13 +466,13 @@ public class sintatico {
            // p7 -> if condicion : proposicion
           public void p7(){
               if(tipodeToken!=40){
-                  System.out.println("Error se esperaba 'if'");
+                  mostrarMensaje("Error se esperaba 'if'");
                   return;
               }
               avanzar();
               condicion();
               if(tipodeToken!=42){
-                  System.out.println("Error se esperaba ':'");
+                  mostrarMensaje("Error se esperaba ':'");
                   return;
               }
               avanzar();
@@ -483,13 +481,13 @@ public class sintatico {
             // p8 -> while condicion : proposicion
            public void p8(){
               if(tipodeToken!=44){
-                  System.out.println("Error se esperaba 'while'");
+                  mostrarMensaje("Error se esperaba 'while'");
                   return;
               }
               avanzar();
               condicion();
               if(tipodeToken!=42){
-                  System.out.println("Error se esperaba ':'");
+                  mostrarMensaje("Error se esperaba ':'");
                   return;
               }
               avanzar();
@@ -503,7 +501,7 @@ public class sintatico {
                firtsp9.add(1);
                
                if(!firtsp9.contains(tipodeToken)){
-                   System.out.println("Error en p9");
+                   mostrarMensaje("Error en p9");
                    return;
                }
                expresion();
@@ -517,29 +515,29 @@ public class sintatico {
                    avanzar();
                    break;
                    default:
-                       System.out.println("Error se esperaba '->' o '<-'");
+                       mostrarMensaje("Error se esperaba '->' o '<-'");
                }
            }
              // p10 -> for id = p9 expresion : proposicion
            public void p10(){
                if(tipodeToken!=46){
-                   System.out.println("Error se esperaba 'for'");
+                   mostrarMensaje("Error se esperaba 'for'");
                    return;
                }
                avanzar();
                 if(tipodeToken!=2){
-                   System.out.println("Error se esperaba 'identificadores'");
+                   mostrarMensaje("Error se esperaba 'identificadores'");
                    return;
              }
                 avanzar();
                 if(tipodeToken!=10){
-                   System.out.println("Error se esperaba '='");
+                   mostrarMensaje("Error se esperaba '='");
                    return;
              } 
                 avanzar();
                 p9();
                  if(tipodeToken!=42){
-                   System.out.println("Error se esperaba ':'");
+                   mostrarMensaje("Error se esperaba ':'");
                    return;
              }
                  avanzar();

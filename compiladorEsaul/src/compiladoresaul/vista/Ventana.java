@@ -152,7 +152,7 @@ private Control c;
 
     private void mnuSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSintacticoActionPerformed
         // TODO add your handling code here:
-        
+        c.analizador(txtMensaje, txtSalida);
     }//GEN-LAST:event_mnuSintacticoActionPerformed
 
     /**
