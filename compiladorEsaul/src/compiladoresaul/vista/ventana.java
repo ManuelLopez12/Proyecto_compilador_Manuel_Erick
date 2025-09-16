@@ -5,8 +5,9 @@
 package compiladoresaul.vista;
 
 import controlador.Control;
+import controlador.analizadorLexico;
 
-import java.time.Clock;
+
 
 /**
  *
@@ -14,11 +15,13 @@ import java.time.Clock;
  */
 public class Ventana extends javax.swing.JFrame {
 private Control c;
+private analizadorLexico a;
 
     
     public Ventana() {
         initComponents();
         c=new Control();
+        a=new analizadorLexico();
         
     }
 
@@ -43,6 +46,7 @@ private Control c;
         jMenu2 = new javax.swing.JMenu();
         mnuLexico = new javax.swing.JMenuItem();
         mnuSintactico = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +88,11 @@ private Control c;
         jMenuBar1.add(mnuArchivo);
 
         jMenu2.setText("Compilar");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         mnuLexico.setText("Léxico");
         mnuLexico.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +109,9 @@ private Control c;
             }
         });
         jMenu2.add(mnuSintactico);
+
+        jMenuItem1.setText("Tabla de simbolos");
+        jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
 
@@ -131,12 +143,14 @@ private Control c;
 
     private void mnuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAbrirActionPerformed
         // TODO add your handling code here:
-        c.abrirArchivo(txtMensaje);
+        a.abrirArchivo1(txtMensaje);
+     //  c.abrirArchivo(txtMensaje);
     }//GEN-LAST:event_mnuAbrirActionPerformed
 
     private void mnuLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLexicoActionPerformed
         // TODO add your handling code here:
-        c.obtenerToken(txtMensaje, txtSalida);
+        a.obtenerToken(txtMensaje, txtSalida);
+        //c.obtenerToken(txtMensaje, txtSalida);
     }//GEN-LAST:event_mnuLexicoActionPerformed
 
     private void mnuLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLimpiarActionPerformed
@@ -155,6 +169,10 @@ private Control c;
         c.analizador(txtMensaje, txtSalida);
     }//GEN-LAST:event_mnuSintacticoActionPerformed
 
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+     a.mostrarTablaDeSimbolos(txtSalida);
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -163,6 +181,7 @@ private Control c;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem mnuAbrir;
