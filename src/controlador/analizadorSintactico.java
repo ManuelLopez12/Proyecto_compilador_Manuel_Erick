@@ -22,6 +22,7 @@ public class analizadorSintactico {
         }
         @Override public String toString(){ return "[SINTAXIS] " + mensaje + " (línea " + linea + ")"; }
     }
+    
 
     private static final Map<String, String> PAIRS = new HashMap<>();
     static {
@@ -130,6 +131,23 @@ if (t.tipo == analizadorLexico.TK_KEYWORD || t.tipo == analizadorLexico.TK_ID) {
                 open.linea
             ));
         }
+
+boolean vioClass=false;
+for (int i=0;i<tokens.size();i++){
+    var t=tokens.get(i);
+    if (t.tipo==analizadorLexico.TK_KEYWORD && t.lexema.equalsIgnoreCase("class")){
+        vioClass=true; break;
+    }
+}
+// si hay '{' a nivel superior y no vimos 'class', sugiere falta de 'class'
+if (!vioClass){
+    for (var t: tokens){
+        if (t.tipo==analizadorLexico.TK_DELIM && "{".equals(t.lexema)){
+            errores.add(new ErrorSintactico("Se esperaba palabra reservada 'class' antes de '{'", t.linea));
+            break;
+        }
+    }
+}
 
         return errores;
     }
