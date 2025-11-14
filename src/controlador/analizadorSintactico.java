@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controlador;
+import controlador.Simbolo;
+
+
 
 
 import java.util.*;
@@ -11,144 +14,151 @@ import java.util.*;
  * Analizador Sintáctico (mínimo) para:
  *  1) Chequeo de delimitadores (), {}, []
  *  2) Chequeo de punto y coma al final de statements
+ * 
+ *  AUTOR: Manuel Lopez
+ *  AUTOR: Erick Nungaray
  */
 public class analizadorSintactico {
 
-    public static class ErrorSintactico {
-        public final String mensaje;
-        public final int linea;
-        public ErrorSintactico(String mensaje, int linea){
-            this.mensaje = mensaje; this.linea = linea;
+    private final List<Simbolo> tokens;
+    private int index;
+
+    public analizadorSintactico(List<Simbolo> tokens) {
+        this.tokens = tokens;
+        this.index = 0;
+    }
+
+    public boolean analizar() {
+        if (analizarBloque() && match(".")) {
+            System.out.println("Análisis sintáctico exitoso.");
+            return true;
+        } else {
+            error("Error: se esperaba '.' al final del programa.");
+            return false;
         }
-        @Override public String toString(){ return "[SINTAXIS] " + mensaje + " (línea " + linea + ")"; }
+    }
+
+    private boolean analizarBloque() {
+        return analizarC2() && analizarC4() && analizarC6() && analizarProposicion();
+    }
+
+    private boolean analizarC2() {
+        if (lookahead("const")) {
+            match("const");
+            if (!match("id")) {
+                error("Se esperaba un identificador después de 'const'");
+                return false;
+            }
+            if (!match("=")) {
+                error("Se esperaba '=' después del identificador");
+                return false;
+            }
+            if (!match("num")) {
+                error("Se esperaba un número después de '='");
+                return false;
+            }
+            while (lookahead(",")) {
+                match(",");
+                if (!match("id") || !match("=") || !match("num")) {
+                    error("Declaración múltiple incorrecta en const.");
+                    return false;
+                }
+            }
+            return match(";");
+        }
+        return true; // c2 → null
+    }
+
+    private boolean analizarC4() {
+        if (lookahead("var")) {
+            match("var");
+            if (!match("id")) {
+                error("Se esperaba identificador en declaración var.");
+                return false;
+            }
+            while (lookahead(",")) {
+                match(",");
+                if (!match("id")) {
+                    error("Identificador faltante en declaración múltiple de var.");
+                    return false;
+                }
+            }
+            return true;
+        }
+        return true; // c4 → null
+    }
+
+    private boolean analizarC6() {
+        if (lookahead("proced")) {
+            match("proced");
+            if (!match("id")) {
+                error("Se esperaba id después de 'proced'");
+                return false;
+            }
+            if (!match(";")) return false;
+            if (!analizarBloque()) return false;
+            return match(";");
+        }
+        return true; // c6 → null
+    }
+
+    private boolean analizarProposicion() {
+        if (lookahead("id")) {
+            match("id");
+            if (!match("=")) return false;
+            return analizarExpresion();
+        }
+        if (lookahead("print")) {
+            match("print");
+            return lookahead("id") ? match("id") : match("num");
+        }
+        if (lookahead("input")) {
+            return match("input") && match("id");
+        }
+        if (lookahead("exec")) {
+            return match("exec") && match("id");
+        }
+        return false;
+    }
+
+    private boolean analizarExpresion() {
+        // expresión simple: num | id
+        return match("num") || match("id");
+    }
+
+    private boolean match(String esperado) {
+        if (index < tokens.size() && tokens.get(index).getNombre().equals(esperado)) {
+            index++;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean lookahead(String esperado) {
+        return index < tokens.size() && tokens.get(index).getNombre().equals(esperado);
+    }
+
+    private void error(String mensaje) {
+        System.err.println("Error sintáctico en token " + index + ": " + mensaje);
     }
     
+    public boolean llavesBalanceadas(String codigo) {
+    Stack<Character> pila = new Stack<>();
 
-    private static final Map<String, String> PAIRS = new HashMap<>();
-    static {
-        PAIRS.put("(", ")");
-        PAIRS.put("{", "}");
-        PAIRS.put("[", "]");
-    }
+    for (int i = 0; i < codigo.length(); i++) {
+        char c = codigo.charAt(i);
 
-    private static boolean esApertura(String lex){
-        return "(".equals(lex) || "{".equals(lex) || "[".equals(lex);
-    }
-    private static boolean esCierre(String lex){
-        return ")".equals(lex) || "}".equals(lex) || "]".equals(lex);
-    }
+        if (c == '{') pila.push(c);
 
-    /** Recorre los tokens en orden y valida balance y ; faltantes */
-    public List<ErrorSintactico> revisar(List<analizadorLexico.Token> tokens){
-        List<ErrorSintactico> errores = new ArrayList<>();
-        Deque<analizadorLexico.Token> pila = new ArrayDeque<>();
-
-        for (int i=0; i<tokens.size(); i++){
-            analizadorLexico.Token t = tokens.get(i);
-
-            // ----- Balance de delimitadores -----
-            if (t.tipo == analizadorLexico.TK_DELIM){
-                String lex = t.lexema;
-                if (esApertura(lex)){
-                    pila.push(t);
-                } else if (esCierre(lex)){
-                    if (pila.isEmpty()){
-                        errores.add(new ErrorSintactico(
-                            "Delimitador de cierre '"+lex+"' sin apertura correspondiente",
-                            t.linea
-                        ));
-                    } else {
-                        analizadorLexico.Token open = pila.pop();
-                        String esperado = PAIRS.get(open.lexema);
-                        if (!lex.equals(esperado)){
-                            errores.add(new ErrorSintactico(
-                                "Delimitador '"+lex+"' no coincide. Se esperaba '"+esperado+"' para abrir en línea "+open.linea,
-                                t.linea
-                            ));
-                        }
-                    }
-                }
+        if (c == '}') {
+            if (pila.isEmpty()) {
+                return false; // cierre sin apertura
             }
-
-          
-        // ----- Falta de ';' -----
-if (t.tipo == analizadorLexico.TK_KEYWORD || t.tipo == analizadorLexico.TK_ID) {
-    String lex = t.lexema.toLowerCase();
-
-    boolean esTipoDeclaracion = 
-            lex.equals("int") || lex.equals("double") || lex.equals("float") ||
-            lex.equals("boolean") || lex.equals("char") || lex.equals("string") ||
-            lex.equals("long") || lex.equals("short") || lex.equals("byte");
-    boolean esReturn = lex.equals("return");
-
-    if (esTipoDeclaracion || esReturn) {
-        // buscamos hasta ; o hasta otro tipo de declaración/llave
-        int j = i+1;
-        boolean encontradoPuntoComa = false;
-        while (j < tokens.size()) {
-            analizadorLexico.Token next = tokens.get(j);
-
-            if(next.tipo == analizadorLexico.TK_DELIM && ";".equals(next.lexema)){
-                encontradoPuntoComa = true;
-                break;
-            }
-
-            if(next.tipo == analizadorLexico.TK_KEYWORD) {
-                String kw = next.lexema.toLowerCase();
-                if(kw.equals("int")||kw.equals("double")||kw.equals("float")||
-                   kw.equals("boolean")||kw.equals("char")||kw.equals("string")||
-                   kw.equals("long")||kw.equals("short")||kw.equals("byte")||
-                   kw.equals("return")||kw.equals("class")||kw.equals("public")||
-                   kw.equals("private")||kw.equals("protected")) {
-                    // Nuevo statement detectado sin haber visto ';'
-                    break;
-                }
-            }
-
-            if(next.tipo == analizadorLexico.TK_DELIM && ("{".equals(next.lexema) || "}".equals(next.lexema))){
-                break;
-            }
-            j++;
-        }
-
-        if(!encontradoPuntoComa){
-            errores.add(new ErrorSintactico(
-                "Falta ';' al final de la instrucción que inicia en '"+t.lexema+"'",
-                t.linea
-            ));
+            pila.pop();
         }
     }
+
+    return pila.isEmpty();  // si queda algo → no está balanceado
 }
 
-        }
-
-        // Lo que quedó abierto sin cerrar
-        while(!pila.isEmpty()){
-            analizadorLexico.Token open = pila.pop();
-            String esperado = PAIRS.get(open.lexema);
-            errores.add(new ErrorSintactico(
-                "Falta delimitador de cierre '"+esperado+"' (apertura en línea "+open.linea+")",
-                open.linea
-            ));
-        }
-
-boolean vioClass=false;
-for (int i=0;i<tokens.size();i++){
-    var t=tokens.get(i);
-    if (t.tipo==analizadorLexico.TK_KEYWORD && t.lexema.equalsIgnoreCase("class")){
-        vioClass=true; break;
-    }
-}
-// si hay '{' a nivel superior y no vimos 'class', sugiere falta de 'class'
-if (!vioClass){
-    for (var t: tokens){
-        if (t.tipo==analizadorLexico.TK_DELIM && "{".equals(t.lexema)){
-            errores.add(new ErrorSintactico("Se esperaba palabra reservada 'class' antes de '{'", t.linea));
-            break;
-        }
-    }
-}
-
-        return errores;
-    }
 }

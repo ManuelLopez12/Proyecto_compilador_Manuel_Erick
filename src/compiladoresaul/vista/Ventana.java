@@ -4,14 +4,20 @@
  */
 package compiladoresaul.vista;
 
+import controlador.AnalisisSemantico;
 import controlador.Control;
-
+import controlador.analizadorLexico;
+import java.util.List;
+import controlador.Simbolo;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 
 
 /**
  *
  * @author JM LOPEZ HURTADO
+ * @author ERICK YAZECK NUNGARAY MATA
  */
 public class Ventana extends javax.swing.JFrame {
 private Control c;
@@ -42,6 +48,7 @@ private Control c;
         mnuLexico = new javax.swing.JMenuItem();
         mnuSintactico = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +120,14 @@ private Control c;
         });
         jMenu2.add(jMenuItem1);
 
+        jMenuItem2.setText("Análisis Semántico");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -178,6 +193,40 @@ private Control c;
         c.mostrarTablaDeSimbolos(txtSalida);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       // 1. Obtener el código del TextArea donde escribes
+    String codigo = txtMensaje.getText();
+
+    // 2. Ejecutar LÉXICO
+    analizadorLexico lexico = new analizadorLexico();
+    lexico.analizar(codigo);
+
+    // 3. Obtener tabla de símbolos del léxico
+    List<Simbolo> tabla = lexico.getTablaSimbolos();
+
+    // 4. Extraer expresiones aritméticas
+    List<String> exprs = lexico.extraerExpresionesAritmeticas();
+
+    // 5. Ejecutar semántico
+    AnalisisSemantico sem = new AnalisisSemantico(tabla, exprs);
+
+    // 6. Capturar salida de System.out → txtSalida
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(baos);
+    PrintStream oldOut = System.out;
+
+    System.setOut(ps);  // redirigimos TODO lo que imprima sem.ejecutar()
+
+    sem.ejecutar();     // aquí se imprime normalmente, pero se captura
+
+    System.out.flush();
+    System.setOut(oldOut); // restauramos
+
+    // 7. Mostrar la salida en el text area
+    txtSalida.setText(baos.toString());
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -187,6 +236,7 @@ private Control c;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem mnuAbrir;

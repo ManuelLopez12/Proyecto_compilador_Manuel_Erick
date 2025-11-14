@@ -1,6 +1,9 @@
 package controlador;
 
 import java.util.*;
+import controlador.Simbolo;
+
+
 
 /**
  * Analizador Léxico:
@@ -8,7 +11,10 @@ import java.util.*;
  *  - Tabla de símbolos mínima (variables: nombre | tipo | valor), SIN parámetros.
  *  - Palabras reservadas (lista del profe) con comparación case-insensitive.
  *  - Operadores ampliados: !, !=, &&, ||, ==, ++, --, <<, >>, >>>, %, &, |, ^, ~ ...
- */
+ * AUTOR: Manuel Lopez
+ *  AUTOR: Erick Nungaray
+*/
+
 public class analizadorLexico {
 
     // === Tipos de token ===
@@ -19,6 +25,8 @@ public class analizadorLexico {
     public static final int TK_DELIM    = 13;
     public static final int TK_PACKAGE  = 90;
     public static final int TK_KEYWORD  = 99;
+    
+    
 
     /** Palabras reservadas (minúsculas) — exactas + true/false/null. */
     private static final Set<String> KEYWORDS_LOWER = new HashSet<>(Arrays.asList(
@@ -50,10 +58,7 @@ public class analizadorLexico {
         }
     }
 
-    public static class Simbolo {
-        public final String nombre, tipo, valor;
-        public Simbolo(String n, String t, String v){ nombre=n; tipo=t; valor=v; }
-    }
+    
 
     private final List<Token> tokens = new ArrayList<>();
     private final List<Integer> tipos = new ArrayList<>();
@@ -220,6 +225,34 @@ public class analizadorLexico {
         }
     }
 
+   public List<Simbolo> escanear(String entrada) {
+    List<Simbolo> simbolos = new ArrayList<>();
+
+    String[] tokens = entrada.split("\\s+|(?=[.,;{}()=+\\-*/<>])|(?<=[.,;{}()=+\\-*/<>])");
+
+    for (String t : tokens) {
+        if (t.isBlank()) continue;
+
+        if (t.matches("[0-9]+")) {
+            simbolos.add(new Simbolo("num", "entero", t));
+        } else if (t.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
+            switch (t) {
+                case "const": case "var": case "proced":
+                case "print": case "input": case "exec":
+                case "if": case "while": case "for":
+                    simbolos.add(new Simbolo(t, "reservada", t));
+                    break;
+                default:
+                    simbolos.add(new Simbolo("id", "identificador", t));
+            }
+        } else {
+            simbolos.add(new Simbolo(t, "simbolo", t));
+        }
+    }
+
+    return simbolos;
+}
+
     /**
      * Lee una lista de declaraciones SÓLO si pertenecen a un statement de variables,
      * es decir, nombres separados por ',' y terminados en ';'.
@@ -280,4 +313,48 @@ public class analizadorLexico {
     }
     return j;
 }
+public List<String> extraerExpresionesAritmeticas() {
+    List<String> exprs = new ArrayList<>();
+
+    for (int i = 0; i < tokens.size(); i++) {
+        analizadorLexico.Token t = tokens.get(i);
+
+        // patrón:  ID  =  algo...  ;
+        if (t.tipo == TK_ID &&
+            i + 1 < tokens.size() &&
+            tokens.get(i + 1).tipo == TK_OP &&
+            "=".equals(tokens.get(i + 1).lexema)) {
+
+            int j = i + 2;
+            StringBuilder sb = new StringBuilder(t.lexema + " = ");
+
+            boolean contieneOp = false;
+
+            // leer hasta ;
+            while (j < tokens.size() && !";".equals(tokens.get(j).lexema)) {
+                String lx = tokens.get(j).lexema;
+                sb.append(lx).append(" ");
+
+                if (tokens.get(j).tipo == TK_OP && "+-*/".contains(lx)) {
+                    contieneOp = true;
+                }
+                j++;
+            }
+
+            sb.append(";");
+            
+            // solo agregar si contiene operación aritmética
+            if (contieneOp) {
+                exprs.add(sb.toString().trim());
+            }
+
+            i = j;
+        }
+    }
+
+    return exprs;
+}
+
+   
+  
 }

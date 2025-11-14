@@ -1,5 +1,6 @@
 package controlador;
 
+import controlador.Simbolo;
 import java.util.*;
 import javax.swing.*;
 import java.util.regex.Pattern;
@@ -13,7 +14,8 @@ import java.util.regex.Pattern;
  *
  * NUEVO:
  * - Detección de palabras reservadas con errores (typos) y botón de autocorrección.
- * AUTOR: Erick Nungaray
+ * AUTOR: Manuel Lopez
+ *  AUTOR: Erick Nungaray
  * *
  */
 public class Control {
@@ -84,7 +86,7 @@ public class Control {
         sb.append("TABLA DE SÍMBOLOS (variables)\n");
         sb.append(String.format("%-20s | %-10s | %-15s\n", "Variable", "Tipo", "Valor"));
         sb.append("---------------------+------------+----------------\n");
-        for(analizadorLexico.Simbolo s: lexer.getTablaSimbolos()){
+        for(Simbolo s: lexer.getTablaSimbolos()){
             sb.append(String.format("%-20s | %-10s | %-15s\n",
                     s.nombre, s.tipo, (s.valor==null? "": s.valor)));
         }
@@ -97,53 +99,66 @@ public class Control {
      * Si hay typos, muestra reporte y ofrece AUTOCORREGIR (botón).
      */
     public void sintactico(JTextArea txtFuente, JTextArea txtSalida){
-        // 1) Léxico
-        lexer.analizar(txtFuente.getText());
-        if(!lexer.getErrores().isEmpty()){
-            StringBuilder se = new StringBuilder();
-            for(String e: lexer.getErrores()) se.append("[ERROR] ").append(e).append("\n");
-            txtSalida.setText(se.toString());
-            return;
-        }
 
-        // 2) Sintáctico (delimitadores + ';')
-        analizadorSintactico syn = new analizadorSintactico();
-        List<analizadorSintactico.ErrorSintactico> errores = syn.revisar(lexer.getTokens());
+    // 1) Léxico
+    lexer.analizar(txtFuente.getText());
+    if(!lexer.getErrores().isEmpty()){
+        StringBuilder se = new StringBuilder();
+        for(String e: lexer.getErrores()) se.append("[ERROR] ").append(e).append("\n");
+        txtSalida.setText(se.toString());
+        return;
+    }
 
-        // 3) Detección de palabras reservadas con posible typo
-        List<Sugerencia> sugerencias = detectarTyposReservadas(lexer.getTokens());
+    // =========================================================
+    // 🔥 2) Verificación de LLAVES antes del análisis sintáctico
+    // =========================================================
+    analizadorSintactico temp = new analizadorSintactico(lexer.getTablaSimbolos());
 
-        // 4) Mostrar resultado y ofrecer autocorrección si aplica
-        StringBuilder sb = new StringBuilder();
-        if(errores.isEmpty() && sugerencias.isEmpty()){
-            sb.append("OK: delimitadores y ';' balanceados. Sin typos en reservadas.\n");
-            txtSalida.setText(sb.toString());
-            return;
-        }
+    String codigo = txtFuente.getText();
+    if (!temp.llavesBalanceadas(codigo)) {
+        txtSalida.setText("[SINTÁCTICO] ERROR: Llaves NO balanceadas.\n");
+        return;
+    }
 
-        for(var e: errores) sb.append(e.toString()).append("\n");
-        for(var s: sugerencias){
-            sb.append(String.format("[LEXICO] Posible palabra reservada mal escrita '%s' (línea %d). ¿Quisiste decir '%s'?\n",
-                    s.actual, s.linea, s.sugerida));
-        }
+    // 3) Sintáctico (delimitadores + ';')
+    analizadorSintactico syn = new analizadorSintactico(lexer.getTablaSimbolos());
+
+    // 4) Detección de palabras reservadas con posible typo
+    List<Sugerencia> sugerencias = detectarTyposReservadas(lexer.getTokens());
+
+    // 5) Mostrar resultado y ofrecer autocorrección si aplica
+    StringBuilder sb = new StringBuilder();
+    if(sugerencias.isEmpty()){
+        sb.append("OK: Llaves balanceadas.\n");
+        sb.append("OK: Delimitadores y ';' balanceados.\n");
+        sb.append("OK: Sin typos en palabras reservadas.\n");
         txtSalida.setText(sb.toString());
+        return;
+    }
 
-        if(!sugerencias.isEmpty()){
-            int opt = JOptionPane.showOptionDialog(null,
-                    "Se detectaron posibles typos en palabras reservadas.\n¿Deseas autocorregir?",
-                    "Autocorrección",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    new Object[]{"Autocorregir", "Cancelar"},
-                    "Autocorregir");
-            if(opt == JOptionPane.YES_OPTION){
-                aplicarAutocorreccion(txtFuente, sugerencias);
-                // volver a correr léxico y sintáctico tras autocorregir para reflejar el estado actualizado
-                sintactico(txtFuente, txtSalida);
-            }
+    for(var s: sugerencias){
+        sb.append(String.format("[LEXICO] Posible palabra reservada mal escrita '%s' (línea %d). ¿Quisiste decir '%s'?\n",
+                s.actual, s.linea, s.sugerida));
+    }
+    txtSalida.setText(sb.toString());
+
+    if(!sugerencias.isEmpty()){
+        int opt = JOptionPane.showOptionDialog(null,
+                "Se detectaron posibles typos en palabras reservadas.\n¿Deseas autocorregir?",
+                "Autocorrección",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"Autocorregir", "Cancelar"},
+                "Autocorregir");
+        if(opt == JOptionPane.YES_OPTION){
+            aplicarAutocorreccion(txtFuente, sugerencias);
+            // volver a correr léxico y sintáctico tras autocorregir para reflejar el estado actualizado
+            sintactico(txtFuente, txtSalida);
         }
     }
+}
+
 
     /* =================== DETECTOR DE TYPOS EN RESERVADAS =================== */
 
