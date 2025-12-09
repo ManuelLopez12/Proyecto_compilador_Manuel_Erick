@@ -15,6 +15,8 @@ public class AnalisisSemantico {
 
     private final List<Simbolo> tabla;       // Tu tabla de símbolos real
     private final List<String> expresiones;  // Lista de expresiones aritméticas
+    private String expresionLimpia;
+public String getExpresionLimpia() { return expresionLimpia; }
 
     public AnalisisSemantico(List<Simbolo> tabla, List<String> expresiones) {
         this.tabla = tabla;
@@ -45,6 +47,9 @@ public class AnalisisSemantico {
 
     String variableDestino = partes[0].trim();
     String parteDerecha = partes[1].replace(";", "").trim();
+    
+    // GUARDAR la expresión limpia para el generador de 3 direcciones
+    expresionLimpia = parteDerecha;
 
     // Validar que la expresión realmente es ARITMÉTICA
     if (!parteDerecha.matches(".*[+\\-*/].*")) {
