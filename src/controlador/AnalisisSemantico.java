@@ -200,7 +200,7 @@ public String getExpresionLimpia() { return expresionLimpia; }
 
         boolean esHoja() { return izq == null && der == null; }
     }
-    private Nodo construirArbol(String expr) {
+ private Nodo construirArbol(String expr) {
     Stack<Nodo> operandos = new Stack<>();
     Stack<Character> operadores = new Stack<>();
 
@@ -209,13 +209,43 @@ public String getExpresionLimpia() { return expresionLimpia; }
     for (int i = 0; i < expr.length(); i++) {
         char c = expr.charAt(i);
 
-        if (Character.isLetter(c)) {
-            operandos.push(new Nodo(String.valueOf(c)));
+        // 1. MANEJO DE PARÉNTESIS DE APERTURA
+        if (c == '(') {
+            operadores.push(c);
         }
-        else if (esOperador(c)) {
+        // 2. MANEJO DE PARÉNTESIS DE CIERRE
+        else if (c == ')') {
+            while (!operadores.isEmpty() && operadores.peek() != '(') {
+                if (operandos.size() < 2)
+                    throw new RuntimeException("Expresión inválida, faltan operandos.");
 
-            while (!operadores.isEmpty() &&
-                    prioridad(operadores.peek()) >= prioridad(c)) {
+                Nodo der = operandos.pop();
+                Nodo izq = operandos.pop();
+                char op = operadores.pop();
+                operandos.push(new Nodo(String.valueOf(op), izq, der));
+            }
+            
+            if (!operadores.isEmpty())
+                operadores.pop(); // Quitar el '('
+        }
+        // 3. MANEJO DE LETRAS Y NÚMEROS (identificadores y literales)
+        else if (Character.isLetterOrDigit(c)) {
+            StringBuilder operando = new StringBuilder();
+            
+            // Leer todo el identificador o número
+            while (i < expr.length() && Character.isLetterOrDigit(expr.charAt(i))) {
+                operando.append(expr.charAt(i));
+                i++;
+            }
+            i--; // Retroceder uno porque el for hará i++
+            
+            operandos.push(new Nodo(operando.toString()));
+        }
+        // 4. MANEJO DE OPERADORES
+        else if (esOperador(c)) {
+            while (!operadores.isEmpty() && 
+                   operadores.peek() != '(' &&
+                   prioridad(operadores.peek()) >= prioridad(c)) {
 
                 if (operandos.size() < 2)
                     throw new RuntimeException("Expresión inválida, faltan operandos.");
@@ -230,8 +260,8 @@ public String getExpresionLimpia() { return expresionLimpia; }
         }
     }
 
+    // Procesar operadores restantes
     while (!operadores.isEmpty()) {
-
         if (operandos.size() < 2)
             throw new RuntimeException("Expresión inválida al finalizar.");
 
@@ -246,9 +276,9 @@ public String getExpresionLimpia() { return expresionLimpia; }
 
     return operandos.pop();
 }
-// ================================================
+
 // BÚSQUEDA EN LA TABLA DE SÍMBOLOS
-// ================================================
+
 private Simbolo buscarSimbolo(String nombre) {
     for (Simbolo s : tabla) {
         if (s.getNombre().equals(nombre)) {
